@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# next-js-cinemasource
 
-## Getting Started
+Next.js module for **Cinema Source (Webedia)** showtime data and **RTS POS** online ticketing. Ported from the Concrete CMS blocks in [`concrete57-rts-cinemasource-blocks`](../concrete57-rts-cinemasource-blocks).
 
-First, run the development server:
+## Features
+
+- Cinema Source theater schedule + movie detail fetching (HTTPS, API v4.0 by default)
+- RTS POS integration (`ShowTimeXml`, `CheckSoldOut`, `CreatePayment`, `Buy`)
+- React components for listings, galleries, coming-soon views, and ticket checkout
+- API routes replacing the legacy `/rts/*.php` proxy scripts
+- Poster caching to `public/posters/`
+
+## Quick start
 
 ```bash
+cp .env.example .env.local
+# fill in Cinema Source + RTS credentials
+
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000/showtimes](http://localhost:3000/showtimes).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Module usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Import the module from `src/cinemasource`:
 
-## Learn More
+```tsx
+import { CinemaShowtimes, buildCinemaListing, getCinemaConfig } from '@/cinemasource';
 
-To learn more about Next.js, take a look at the following resources:
+const data = await buildCinemaListing(getCinemaConfig());
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default function Page() {
+  return <CinemaShowtimes data={data} initialView="listing" />;
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Exported components
 
-## Deploy on Vercel
+| Export | Description |
+|--------|-------------|
+| `CinemaShowtimes` | All-in-one demo shell with view switcher + checkout modal |
+| `MovieListing` | Current showtimes list |
+| `MovieListingSoon` | Coming-soon list |
+| `MovieGallery` | Poster carousel + detail panel |
+| `MovieGallerySoon` | Coming-soon gallery |
+| `TicketPurchaseModal` | RTS checkout flow |
+| `CinemaProvider` / `useCinemaData` | Context for listing payload |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Server utilities
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Export | Description |
+|--------|-------------|
+| `buildCinemaListing()` | Fetch Cinema Source + RTS and build normalized payload |
+| `getCinemaConfig()` | Load config from environment variables |
+
+## API routes
+
+| Route | Replaces | Purpose |
+|-------|----------|---------|
+| `GET /api/cinema/listing` | `listingcache.js` | Full listing payload (cached 2h) |
+| `POST /api/rts/proxy` | `rts/req.php` | RTS XML proxy |
+| `POST /api/rts/session` | `rts/sess.php` | Checkout session storage |
+| `GET /api/rts/redirect` | `rts/redir.php` | Payment processor redirect form |
+| `POST /api/rts/complete` | `rts/procComp.php` | Payment callback + ticket purchase |
+
+## Environment variables
+
+See [`.env.example`](.env.example) for all options.
+
+Required for live data:
+
+- `CINEMA_SOURCE_API_KEY`
+- `CINEMA_SOURCE_HOUSE_ID`
+- `RTS_USERNAME`
+- `RTS_PASSWORD`
+
+## Project structure
+
+```
+src/cinemasource/
+  components/     React UI
+  lib/            Cinema Source + RTS clients, listing builder
+  config.ts       Environment config
+  types.ts        Shared TypeScript types
+  index.ts        Public exports
+src/app/
+  showtimes/      Demo page
+  api/            Route handlers
+```
+
+## Differences from Concrete CMS version
+
+- No global JS variables; data flows through React context
+- jQuery/Bootstrap replaced with React + Tailwind CSS
+- PHP sessions replaced with encrypted `iron-session` cookies
+- Posters stored in `public/posters/` instead of Concrete file manager
+- Config via environment variables instead of block settings
+
+## License
+
+MIT
