@@ -1,6 +1,6 @@
 # next-js-cinemasource
 
-Next.js module for **Cinema Source (Webedia)** showtime data and **RTS POS** online ticketing. Ported from the Concrete CMS blocks in [`concrete57-rts-cinemasource-blocks`](../concrete57-rts-cinemasource-blocks).
+Next.js module for **Cinema Source (Webedia)** showtime data and **RTS POS** online ticketing. Ported from the Concrete CMS blocks in [`concrete57-rts-cinemasource-blocks`](https://github.com/doodersrage/concrete-cms-rts-cinemasource-blocks).
 
 ## Features
 
