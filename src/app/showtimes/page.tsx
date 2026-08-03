@@ -1,6 +1,6 @@
 import { CinemaShowtimes } from '@/cinemasource';
-import { buildCinemaListing } from '@/cinemasource/lib/listingBuilder';
-import { getCinemaConfig } from '@/cinemasource/config';
+import { buildCinemaListing } from '@/cinemasource/server';
+import { getCinemaConfig } from '@/cinemasource/server';
 
 export default async function ShowtimesPage() {
   let data;

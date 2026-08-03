@@ -22,6 +22,8 @@ export interface SiteConfig {
   returnUrl: string;
   convFee: number;
   trailerBaseUrl: string;
+  /** Directory for cached poster images (defaults to `<cwd>/public/posters`). */
+  postersDir?: string;
 }
 
 export interface CinemaModuleConfig {

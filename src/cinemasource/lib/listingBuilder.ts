@@ -109,7 +109,8 @@ export async function buildCinemaListing(config: CinemaModuleConfig): Promise<Ci
     : [];
 
   const movieData: Record<string, MovieDetail> = {};
-  const postersDir = path.join(process.cwd(), 'public', 'posters');
+  const postersDir =
+    site.postersDir ?? path.join(process.cwd(), 'public', 'posters');
 
   for (const movie of normalizedListing) {
     if (!movie.movie_id) {

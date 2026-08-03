@@ -1,29 +1,134 @@
 {
   "name": "next-js-cinemasource",
   "version": "0.1.0",
-  "private": true,
+  "description": "Next.js module for Cinema Source showtime data and RTS POS online ticketing",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": {
+        "types": "./dist/server.d.cts",
+        "default": "./dist/server.cjs"
+      }
+    },
+    "./routes/cinema-listing": {
+      "import": {
+        "types": "./dist/routes/cinema-listing.d.ts",
+        "default": "./dist/routes/cinema-listing.js"
+      },
+      "require": {
+        "types": "./dist/routes/cinema-listing.d.cts",
+        "default": "./dist/routes/cinema-listing.cjs"
+      }
+    },
+    "./routes/rts-proxy": {
+      "import": {
+        "types": "./dist/routes/rts-proxy.d.ts",
+        "default": "./dist/routes/rts-proxy.js"
+      },
+      "require": {
+        "types": "./dist/routes/rts-proxy.d.cts",
+        "default": "./dist/routes/rts-proxy.cjs"
+      }
+    },
+    "./routes/rts-session": {
+      "import": {
+        "types": "./dist/routes/rts-session.d.ts",
+        "default": "./dist/routes/rts-session.js"
+      },
+      "require": {
+        "types": "./dist/routes/rts-session.d.cts",
+        "default": "./dist/routes/rts-session.cjs"
+      }
+    },
+    "./routes/rts-redirect": {
+      "import": {
+        "types": "./dist/routes/rts-redirect.d.ts",
+        "default": "./dist/routes/rts-redirect.js"
+      },
+      "require": {
+        "types": "./dist/routes/rts-redirect.d.cts",
+        "default": "./dist/routes/rts-redirect.cjs"
+      }
+    },
+    "./routes/rts-complete": {
+      "import": {
+        "types": "./dist/routes/rts-complete.d.ts",
+        "default": "./dist/routes/rts-complete.js"
+      },
+      "require": {
+        "types": "./dist/routes/rts-complete.d.cts",
+        "default": "./dist/routes/rts-complete.cjs"
+      }
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build:package && next build",
+    "build:package": "tsup && node scripts/stamp-use-client.mjs && npm run build:css",
+    "build:css": "tailwindcss -i ./src/cinemasource/styles.css -o ./dist/styles.css --minify",
+    "prepublishOnly": "npm run build:package",
     "start": "next start",
     "lint": "eslint"
+  },
+  "keywords": [
+    "nextjs",
+    "cinema",
+    "showtimes",
+    "rts",
+    "ticketing",
+    "cinema-source",
+    "webedia"
+  ],
+  "peerDependencies": {
+    "next": ">=14.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "dependencies": {
     "dayjs": "^1.11.21",
     "fast-xml-parser": "^5.10.1",
-    "iron-session": "^8.0.4",
-    "next": "16.2.12",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "iron-session": "^8.0.4"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "next": "16.2.12",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "tailwindcss": "^4",
+    "tsup": "^8.5.0",
     "typescript": "^5"
   }
 }

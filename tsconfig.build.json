@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "incremental": false,
+    "outDir": "./dist",
+    "rootDir": "./src/cinemasource",
+    "module": "ESNext",
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/cinemasource/**/*"],
+  "exclude": ["node_modules"]
+}

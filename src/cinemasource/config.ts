@@ -1,3 +1,4 @@
+import path from 'path';
 import type { CinemaModuleConfig } from './types';
 
 export function getCinemaConfig(): CinemaModuleConfig {
@@ -29,6 +30,8 @@ export function getCinemaConfig(): CinemaModuleConfig {
       convFee: Number(process.env.CONVENIENCE_FEE ?? 1.35),
       trailerBaseUrl:
         process.env.TRAILER_BASE_URL ?? 'http://media.westworldmedia.com/thbmb/mp4',
+      postersDir:
+        process.env.POSTERS_DIR ?? path.join(process.cwd(), 'public', 'posters'),
     },
   };
 }

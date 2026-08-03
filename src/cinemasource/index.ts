@@ -1,5 +1,3 @@
-export { getCinemaConfig } from './config';
-export { buildCinemaListing } from './lib/listingBuilder';
 export { CinemaProvider, useCinemaData } from './components/CinemaProvider';
 export { CinemaShowtimes } from './components/CinemaShowtimes';
 export { MovieListing } from './components/MovieListing';
